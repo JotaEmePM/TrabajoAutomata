@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Trabajo automatas - José Pérez</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+                    <!--[if lt IE 9]>
+                                                          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+                                                          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+                                                        <![endif]-->
+        <style>
+            body {
+              padding-top: 50px;
+            }
+            .starter-template {
+              padding: 40px 15px;
+              text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Esconder navegacion</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Trabajo automatas</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.html">Información</a></li>
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown">Generar automata por: <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="codmq.html">Codigo maquina</a></li>
+                                <li><a href="regex.html">Expresión regular</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">José Miguel Pérez Méndez</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+        <div class="container">
+            <input id="regex" type="text" >
+        </div><!-- /.container -->
+        <div class="container">
+            <div id="automatonGraph"> </div>
+        </div>
+        <div class="container">
+            <textarea id="fsm" class="input-block-level" type="text" placeholder="or write your own" spellcheck="false"></textarea>
+        </div>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/1.2.1/lodash.min.js"></script>
+        
+        <script src="http://mdaines.github.io/viz.js/viz.js"></script>
+        <script src="js/noam.js"></script>
+        <script>
+            $(document).on('ready', function () {
+
+                
+                $("#regex").keyup(onRegexChange);
+
+               
+
+                function onRegexChange() {
+             
+                    $("#automatonGraph").html("");
+                    $("#fsm").val("");
+                    var regex = validateRegex();
+                    if (regex !== null) {
+                        var automaton = noam.re.tree.toAutomaton(regex);
+                        drawGraph(automaton);
+                        $("#fsm").val(noam.fsm.serializeFsmToString(automaton));
+                    }
+                }
+
+                function validateRegex() {
+                    var regex = $("#regex").val();
+
+                    if (regex.length === 0) {
+                        //$("#regex").parent().removeClass("success error");
+                        //$("#fsm").parent().removeClass("success error");
+                        //$("#inputError").hide();
+                    } else {
+                        try {
+                            regex = noam.re.string.toTree(regex);
+                            //$("#regex").parent().removeClass("error");
+                            //$("#regex").parent().addClass("success");
+                            //$("#fsm").parent().removeClass("error");
+                            //$("#fsm").parent().addClass("success");
+                            //$("#inputError").hide();
+                            return regex;
+                        } catch (e) {
+                            //$("#regex").parent().removeClass("success");
+                            //$("#regex").parent().addClass("error");
+                            //$("#inputError").show();
+                            //$("#inputError").text("Error: " + e.message);
+                            return null;
+                        }
+                    }
+                }
+
+                function drawGraph(automaton) {
+                    var dotString = noam.fsm.printDotFormat(automaton);
+                    var gvizXml = Viz(dotString, "svg");
+                    $("#automatonGraph").html(gvizXml);
+                    $("#automatonGraph svg").width($("#automatonGraph").width());
+                }
+            });
+        </script>
+    </body>
+</html>

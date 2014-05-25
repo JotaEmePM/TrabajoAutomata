@@ -1,0 +1,412 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trabajo automatas - José Pérez</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" href="css/select2.css" />
+    <link rel="stylesheet" href="css/select2-bootstrap.css" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>                                                                                                                   <![endif]-->
+    <style>
+        body {
+            padding-top: 50px;
+        }
+
+        .starter-template {
+            padding: 40px 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Esconder navegacion</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Trabajo automatas</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Información</a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown">Generar automata por: <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="codmq.html">Codigo maquina</a></li>
+                            <li><a href="regex.html">Expresión regular</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">José Miguel Pérez Méndez</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="rootwizard">
+                    <ul>
+                        <li><a href="#tab1" data-toggle="tab">Elementos del lenguaje</a></li>
+                        <li><a href="#tab2" data-toggle="tab">Estados</a></li>
+                        <li><a href="#tab3" data-toggle="tab">Estado inicial</a></li>
+                        <li><a href="#tab4" data-toggle="tab">Estado final</a></li>
+                        <li><a href="#tab5" data-toggle="tab">Transiciones</a></li>
+                        <li><a href="#tab6" data-toggle="tab">Ultimo paso</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="tab1">
+                            <div class="container">
+                                <h3>Ingrese los elementos del lenguaje: <small>máximo 4. (Puedes ingresar otros aparte de la lista que se muestra)</small></h3>
+                                <div id="cboElementos" class=".col-xs-12.col-sm-12.col-md-12.col-lg-12"></div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab2">
+                            <div class="container">
+                                <h3>Ingrese los estados del automata: <small>(Puedes ingresar otros aparte de la lista que se muestra)</small></h3>
+                                <div id="cboEstados" class=".col-xs-12.col-sm-12.col-md-12.col-lg-12"></div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab3">
+                            <div class="container">
+                                <div class="row">
+                                    <h3>Seleccione el estado inicial del automata: </h3>
+                                    <select id="cboInicial" class="form-control" style="width: 300px;"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab4">
+                            <div class="container">
+                                <div class="row">
+                                    <h3>Seleccione los estados finales del automata: </h3>
+                                    <select id="cboFinal" multiple class="form-control" style="width: 300px; height: 300px;"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab5">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <h3>Ingrese las transiciones:</h3>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label for="cboInicioTransicion">Estado inicial</label>
+                                            <select id="cboInicioTransicion" class="form-control"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label for="cboFinTransicion">Estado final</label>
+                                            <select id="cboFinTransicion" class="form-control"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label for="cboElementoTransicion">Elemento</label>
+                                            <select id="cboElementoTransicion" class="form-control"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+                                        <label></label>
+                                        <button type="button" id="btnAgregar" class="btn btn-success btn-block">Agregar</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <ul id="listaTransiciones"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab6">
+                            El resultado es:
+                        </div>
+                        <ul class="pager wizard">
+                            <li class="previous"><a href="#">Anterior</a></li>
+                            <li class="next"><a href="#">Siguiente</a></li>
+                            <li class="next finish" style="display:none;"><a href="javascript:;">Finalizar</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="canvas" style="border:1px solid #000000; background-color: #DAE4E4; width: 900px; height: 300px;"></div>
+    </div><!-- /.container -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <script src="js/jquery.bootstrap.wizard.js"></script>
+
+    <script src="js/select2.min.js"></script>
+    <script src="js/select2_locale_es.js"></script>
+
+    <script src="noty/packaged/jquery.noty.packaged.min.js"></script>
+
+    <script src="js/go-debug.js"></script>
+    <script src="js/linq.min.js"></script>
+    <script>
+
+
+
+        jQuery(document).on('ready', function () {
+
+            $('#cboElementos').select2({
+                tags: ["a", "b", "c", "d"],
+                maximumSelectionSize: 4,
+                maximumInputLength: 10,
+                width: '300px',
+                tokenSeparators: [",", " "]
+            });
+
+            $('#cboEstados').select2({
+                tags: ["q0", "q1", "q2", "q3", "q4"],
+                maximumInputLength: 10,
+                width: '300px',
+                tokenSeparators: [",", " "]
+            });
+
+            $('#rootwizard').bootstrapWizard({
+                onTabClick: function (tab, navigation, index) {
+                    return false;
+                },
+                onTabShow: function (tab, navigation, index) {
+                    var $total = navigation.find('li').length;
+                    var $current = index + 1;
+                    var $percent = ($current / $total) * 100;
+                    $('#rootwizard').find('.bar').css({ width: $percent + '%' });
+                    // If it's the last tab then hide the last button and show the finish instead
+                    if ($current >= $total) {
+                        $('#rootwizard').find('.pager .next').hide();
+                        $('#rootwizard').find('.pager .finish').show();
+                        $('#rootwizard').find('.pager .finish').removeClass('disabled');
+                    } else {
+                        $('#rootwizard').find('.pager .next').show();
+                        $('#rootwizard').find('.pager .finish').hide();
+                    }
+                },
+                onNext: function (tab, navigation, index) {
+                    if (index == 1) {
+                        var data = $("#cboElementos").select2("data");
+                        if (data.length == 0) {
+                            var n = noty({ text: 'Debes ingresar al menos un elemento a la lista.', theme: 'defaultTheme', type: 'error', dismissQueue: true, animation: { open: { height: 'toggle' }, close: { height: 'toggle' }, easing: 'swing', speed: 500 }, timeout: 3000, modal: false, maxVisible: 5, killer: false, closeWith: ['click'] });
+                            return false;
+                        }
+                    }
+
+                    if (index == 2) {
+                        var data = $("#cboEstados").select2("data");
+                        if (data.length == 0) {
+                            var n = noty({ text: 'Debes ingresar al menos un estado a la lista.', theme: 'defaultTheme', type: 'error', dismissQueue: true, animation: { open: { height: 'toggle' }, close: { height: 'toggle' }, easing: 'swing', speed: 500 }, timeout: 3000, modal: false, maxVisible: 5, killer: false, closeWith: ['click'] });
+                            return false;
+                        } else {
+                            $('#cboInicial').find('option').remove().end();
+                            $.each(data, function (i, v) {
+                                if (i == 0) {
+                                    $('#cboInicial').append('<option value="' + v.text + '" selected>' + v.text + '</option>').val(v.text);
+                                } else {
+                                    $('#cboInicial').append('<option value="' + v.text + '">' + v.text + '</option>').val(v.text);
+                                }
+                            });
+                        }
+                    }
+
+                    if (index == 3) {
+                        var data = $("#cboEstados").select2("data");
+                        $('#cboFinal').find('option').remove().end();
+                        $.each(data, function (i, v) {
+                            if (i == 0) {
+                                $('#cboFinal').append('<option value="' + v.text + '" selected>' + v.text + '</option>').val(v.text);
+                            } else {
+                                $('#cboFinal').append('<option value="' + v.text + '">' + v.text + '</option>').val(v.text);
+                            }
+                        });
+                    }
+
+                    if (index == 4) {
+                        var dataEstados = $("#cboEstados").select2("data");
+                        var dataElementos = $("#cboElementos").select2("data");
+
+                        $('#cboInicioTransicion').find('option').remove().end();
+                        $.each(dataEstados, function (i, v) {
+                            if (i == 0) {
+                                $('#cboInicioTransicion').append('<option value="' + v.text + '" selected>' + v.text + '</option>').val(v.text);
+                            } else {
+                                $('#cboInicioTransicion').append('<option value="' + v.text + '">' + v.text + '</option>').val(v.text);
+                            }
+                        });
+
+                        $('#cboFinTransicion').find('option').remove().end();
+                        $.each(dataEstados, function (i, v) {
+                            if (i == 0) {
+                                $('#cboFinTransicion').append('<option value="' + v.text + '" selected>' + v.text + '</option>').val(v.text);
+                            } else {
+                                $('#cboFinTransicion').append('<option value="' + v.text + '">' + v.text + '</option>').val(v.text);
+                            }
+                        });
+
+                        $('#cboElementoTransicion').find('option').remove().end();
+                        $.each(dataElementos, function (i, v) {
+                            if (i == 0) {
+                                $('#cboElementoTransicion').append('<option value="' + v.text + '" selected>' + v.text + '</option>').val(v.text);
+                            } else {
+                                $('#cboElementoTransicion').append('<option value="' + v.text + '">' + v.text + '</option>').val(v.text);
+                            }
+                        });
+                    }
+                }
+            });
+
+            var transiciones = [];
+
+            $('#btnAgregar').on('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                //listaTransiciones
+                /*
+                cboInicioTransicion
+                cboFinTransicion
+                cboElementoTransicion
+                */
+
+                var inicio = $('#cboInicioTransicion').val();
+                var fin = $('#cboFinTransicion').val();
+                var elemento = $('#cboElementoTransicion').val();
+
+                var queryResult = Enumerable.From(transiciones)
+                    .Where(function (x) { return x.Inicio == inicio })
+                    .Where(function (x) { return x.Fin == fin })
+                    .Where(function (x) { return x.Elemento == elemento })
+                    .Select(function (x) { return x })
+                    .ToArray();
+
+                if (queryResult.length > 0) {
+                    var n = noty({ text: 'El elemento ya existe en la lista.', theme: 'defaultTheme', type: 'error', dismissQueue: true, animation: { open: { height: 'toggle' }, close: { height: 'toggle' }, easing: 'swing', speed: 500 }, timeout: 3000, modal: false, maxVisible: 5, killer: false, closeWith: ['click'] });
+                } else {
+                    var texto = '[(' + inicio + ',' + elemento + '),' + fin + ']';
+
+                    var item = {
+                        Inicio: inicio,
+                        Fin: fin,
+                        Elemento: elemento
+                    };
+                    transiciones.push(item);
+
+                    $('#listaTransiciones').append('<li>' + texto + '</li>');
+                }
+            });
+
+            $('#rootwizard .finish').click(function () {
+                ///////////////////////////////////////////////////////////
+                $(this).hide();
+
+                var $$ = go.GraphObject.make;
+
+                myDiagram = $$(go.Diagram, "canvas", { initialContentAlignment: go.Spot.Center });
+
+                myDiagram.nodeTemplate =
+                  $$(go.Node, "Auto",
+                    $$(go.Shape, "Circle",
+                      new go.Binding("fill", "color")),
+                    $$(go.TextBlock,
+                      { margin: 3 },
+                      new go.Binding("text", "key"))
+                  );
+
+                var EstadoTemplate = $$(go.Node, "Auto", $$(go.Shape, "Circle", new go.Binding("fill", "color")), $$(go.TextBlock, { margin: 15 }, new go.Binding("text", "key")));
+
+                var FinTemplate = $$(go.Node, "Auto", $$(go.Shape, "Ring", new go.Binding("fill", "color")), $$(go.TextBlock, { margin: 15 }, new go.Binding("text", "key")));
+
+                var templmap = new go.Map("string", go.Node);
+                templmap.add("simple", EstadoTemplate);
+                templmap.add("final", FinTemplate);
+                templmap.add("", myDiagram.nodeTemplate);
+
+                myDiagram.nodeTemplateMap = templmap;
+
+                myDiagram.linkTemplate = $$(go.Link,
+                    $$(go.Shape),
+                    $$(go.Shape, { toArrow: "Standard" }),
+                    $$(go.TextBlock,
+                    new go.Binding("text", "text"),
+                    { segmentOffset: new go.Point(0, 10) }));
+
+                /**************************************************************/
+                var estados = $("#cboEstados").select2("data");
+                var elementos = $("#cboElementos").select2("data");
+                var estadosFinales = $("#cboEstados").select2("data");
+
+                var iEstados = [];
+                var iTransiciones = [];
+
+
+                $.each(estados, function (i, v) {
+                    var tipo = 'simple';
+                    var color = 'white';
+
+                    $.each($('#cboFinal').val(), function (ii, vv) {
+                        if (v.text == vv)
+                            tipo = "final";
+                    });
+
+                    if (v.text == $("#cboInicial").val()) color = "lightblue";
+                    else color = "White";
+
+                    iEstados.push({ key: v.text, color: color, category: tipo });
+                });
+
+                $.each(transiciones, function (i, v) {
+                    iTransiciones.push({ from: v.Inicio, to: v.Fin, text: v.Elemento });
+                });
+                /**************************************************************/
+                myDiagram.model = new go.GraphLinksModel(iEstados, iTransiciones);
+                ///////////////////////////////////////////////////////////
+
+                generarPalabrasValidas(estados, elementos, iTransiciones, estadosFinales, $("#cboInicial").val());
+
+
+            });
+        });
+
+        function generarPalabrasValidas(estados, elementos, iTransiciones, estadosFinales, inicial) {
+            var inicialFinal = false;
+            console.log('El inicial es: ' + inicial);
+            $.each(elementos, function (i, v) {
+                console.log('revisando el elemento: ' + v.text);
+                if (inicial == v.text) {
+                    console.log('es inicial');
+                    inicialFinal = true;
+                }
+            });
+
+            var palabras = generarPalabras(elementos, inicial, inicialFinal);
+
+        }
+
+        function generarPalabras(elementos, inicial, finalizaPrimerNodo) {
+            var palabrasValidas = [];
+            if (finalizaPrimerNodo) palabrasValidas.push('{}');
+
+
+
+        }
+    </script>
+</body>
+</html>
